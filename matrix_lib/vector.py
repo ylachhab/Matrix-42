@@ -6,13 +6,13 @@ class Vector[K: Field]:
     
     def add(self, v: "Vector[K]") -> None:
         if len(v.data) != len(self.data):
-            raise ValueError("vectors must have the same size")
+            raise ValueError("Vectors must have the same size")
         for i in range(len(self.data)):
             self.data[i] = self.data[i] + v.data[i]
 
     def sub(self, v: "Vector[K]") -> None:
         if len(v.data) != len(self.data):
-            raise ValueError("vectors must have the same size")
+            raise ValueError("Vectors must have the same size")
         for i in range(len(self.data)):
             self.data[i] = self.data[i] - v.data[i]
 
