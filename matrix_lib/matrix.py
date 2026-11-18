@@ -2,14 +2,18 @@ from matrix_lib.field import Field
 
 class Matrix[K: Field]:
     def __init__(self, data: list[list[K]]) -> None:
+        # if data and any(len(row) != len(data[0]) for row in data):
+        if data:
+            for row in data:
+                if len(row) != len(data[0]):
+                    raise ValueError("Matrices must have the same shape")
         self.data = [list(row) for row in data]
     
 
     def shape(self) -> tuple[int, int]:
-        """(rows, columns)"""
         if not self.data:
             return (0, 0)
-        return (len(self.data[0]), len(self.data))
+        return (len(self.data), len(self.data[0]))
 
     def add(self, v: "Matrix[K]") -> None:
         if v.shape() != self.shape():

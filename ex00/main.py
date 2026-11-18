@@ -2,17 +2,43 @@ from matrix_lib.vector import Vector
 from matrix_lib.matrix import Matrix
 
 def main():
-    # u = Vector([2., 3.])
-    # v = Vector([5., 7.])
-    # u.add(v)
-    # print(u)
+    #  Test Vector operations
+    # Addition
+    print("Vector operations: ")
+    v1 = Vector([2., 3.])
+    v2 = Vector([5., 7.])
+    v1.add(v2)
+    print(v1)
 
-    u = Matrix([[1., 2.], [3., 4.]])
-    v = Matrix([[7., 4.], [-2., 2.]])
-    u.add(v)
-    print(u)
-    # [8.0, 6.0]
-    # [1.0, 6.0]
+    # Subtraction
+    v3 = Vector([2., 3.])
+    v4 = Vector([5., 7.])
+    v3.sub(v4)
+    print(v3)
+
+    # Scaling
+    v5 = Vector([2., 3.])
+    v5.scl(2.)
+    print(v5)
+    print("\nMatrix operations: ")
+
+    # Test Matrix operations
+    # Addition
+    m1 = Matrix([[1., 2.], [3., 4.]])
+    m2 = Matrix([[7., 4.], [-2., 2.]])
+    m1.add(m2)
+    print(m1)
+
+    # Subtraction
+    m3 = Matrix([[1., 2.], [3., 4.]])
+    m4 = Matrix([[7., 4.], [-2., 2.]])
+    m3.sub(m4)
+    print(m3)
+
+    # Scaling
+    m5 = Matrix([[1., 2.], [3., 4.]])
+    m5.scl(2.)
+    print(m5)
 
 if __name__ == "__main__":
     main()
