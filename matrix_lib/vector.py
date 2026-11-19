@@ -20,5 +20,20 @@ class Vector[K: Field]:
         for i in range(len(self.data)):
             self.data[i] = self.data[i] * a
 
+    def dot(self, v: "Vector[K]", ) -> K:
+        if len(v.data) != len(self.data):
+            raise ValueError("Vectors must have the same size")
+        if not self.data:
+            raise ValueError("Vectors cannot be empty")
+        result = self.data[0] * v.data[0]
+        for i in range(1, len(self.data)):
+            result = result + self.data[i] * v.data[i]
+        return result
+
+
     def __str__(self) -> str:
         return "\n".join(f"[{x}]" for x in self.data)
+
+
+# uv venv --python 3.14 .venv
+# source .venv/bin/activate
