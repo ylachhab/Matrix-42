@@ -58,12 +58,24 @@ class Matrix[K: Field]:
         result = []
         for _ in range(len(self.data)):
             result.append([0.] * len(mat.data[0]))
-            
+
         for i in range(len(self.data)):
             for j in range(len(mat.data[0])):
                 for k in range(len(self.data[0])):
                     result[i][j] += self.data[i][k] * mat.data[k][j]
         return Matrix(result)
+
+    # exercise 08
+    def trace(self) -> K:
+        if not self.data:
+            raise ValueError("Matrix should not be empty")
+        if len(self.data) != len(self.data[0]):
+            raise ValueError("Matrix must be square")
+        result = self.data[0][0]
+        for i in range(1, len(self.data)):
+            result = result + self.data[i][i]
+        return result
+        # return sum(self.data[i][i] for i in range(len(self.data)))
 
     def __str__(self) -> str:
         return "\n".join(
