@@ -54,10 +54,11 @@ class Matrix[K: Field]:
             raise ValueError(
                 "Columns of the first matrix must equal rows of the second"
             )
-        result = [
-            [0.] * len(mat.data[0])
-            for _ in range(len(self.data))
-        ]
+
+        result = []
+        for _ in range(len(self.data)):
+            result.append([0.] * len(mat.data[0]))
+            
         for i in range(len(self.data)):
             for j in range(len(mat.data[0])):
                 for k in range(len(self.data[0])):

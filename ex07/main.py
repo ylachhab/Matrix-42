@@ -29,6 +29,38 @@ def main():
     u = Vector([5., 6.])
     print(a.mul_vec(u).data, a.mul_vec(u).data == [17., 39.])
 
+    # matrix multiplication tests
+    a = Matrix([
+        [1., 0.],
+        [0., 1.]
+    ])
+    b = Matrix([
+        [1., 0.],
+        [0., 1.]
+    ])
+    print(a.mul_mat(b).data, a.mul_mat(b).data == [[1., 0.], [0., 1.]])
+
+    u = Matrix([
+        [1., 0.],
+        [0., 1.]
+    ])
+    v = Matrix([
+        [2., 1.],
+        [4., 2.]
+    ])
+    print(u.mul_mat(v).data, u.mul_mat(v).data == [[2., 1.], [4., 2.]])
+
+    a = Matrix([
+        [3., -5.],
+        [6., 8.]
+    ])
+
+    b = Matrix([
+        [2., 1.],
+        [4., 2.]
+    ])
+    print(a.mul_mat(b).data, a.mul_mat(b).data == [[-14., -7.], [44., 22.]])
+
     a = Matrix([[1., 2.], [3., 4.]])
     b = Matrix([[5., 6.], [7., 8.]])
     r = a.mul_mat(b)
