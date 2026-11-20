@@ -4,7 +4,7 @@ from matrix_lib.vector import Vector
 
 def angle_cos[K: Field](u: Vector[K], v: Vector[K]) -> float:
     if len(u.data) != len(v.data):
-        raise ValueError("Vectors and coefficients must have the same length")
+        raise ValueError("Vectors must have the same length")
     unorm = u.norm()
     vnorm = v.norm()
     if unorm == 0 or vnorm == 0:
