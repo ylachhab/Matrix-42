@@ -77,6 +77,23 @@ class Matrix[K: Field]:
         return result
         # return sum(self.data[i][i] for i in range(len(self.data)))
 
+    # exercise 09
+    # def transpose(self) -> "Matrix[K]":
+    #     if not self.data:
+    #         raise ValueError("Matrix should not be empty")
+    #     result = []
+    #     for j in range(len(self.data[0])):
+    #         result.append([0.] * len(self.data))
+    #     for i in range(len(self.data)):
+    #         for j in range(len(self.data[i])):
+    #             result[j][i] = self.data[i][j]
+    #     return Matrix(result)
+    def transpose(self) -> "Matrix[K]":
+        if not self.data:
+            raise ValueError("Matrix should not be empty")
+        rows, cols = self.shape()
+        return Matrix([[self.data[i][j] for i in range(rows)] for j in range(cols)])
+
     def __str__(self) -> str:
         return "\n".join(
             f"[{', '.join(str(x) for x in row)}]" for row in self.data
