@@ -94,6 +94,42 @@ class Matrix[K: Field]:
         rows, cols = self.shape()
         return Matrix([[self.data[i][j] for i in range(rows)] for j in range(cols)])
 
+    def row_echelon(self) -> "Matrix[K]":
+        if not self.data:
+            raise ValueError("Matrix should not be empty")
+        rows, cols = self.shape()
+        result = [row.copy() for row in self.data]
+
+        pivot_row = 0
+        for col in range(cols):
+            if pivot_row >= rows:
+                break
+
+            if result[pivot_row][col] == 0:
+                for r in range(pivot_row + 1, rows):
+                    if result[r][col] != 0:
+                        result[pivot_row], result[r] = result[r], result[pivot_row]
+                        break
+                
+            if result[pivot_row][col] == 0:
+                continue
+
+            pivot_value = result[pivot_row][col]
+
+            for c in range(col, cols):
+                result[pivot_row][c] /= pivot_value
+
+            for r in range(rows):
+                if r == pivot_row:
+                    continue
+                factor = result[r][col]
+                for c in range(col, cols):
+                    result[r][c] -= factor * result[pivot_row][c]
+
+            pivot_row += 1
+
+        return Matrix(result)
+
     def __str__(self) -> str:
         return "\n".join(
             f"[{', '.join(str(x) for x in row)}]" for row in self.data
