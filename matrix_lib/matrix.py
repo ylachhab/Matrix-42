@@ -94,6 +94,7 @@ class Matrix[K: Field]:
         rows, cols = self.shape()
         return Matrix([[self.data[i][j] for i in range(rows)] for j in range(cols)])
 
+    # exercise 10
     def row_echelon(self) -> "Matrix[K]":
         if not self.data:
             raise ValueError("Matrix should not be empty")
@@ -129,6 +130,35 @@ class Matrix[K: Field]:
             pivot_row += 1
 
         return Matrix(result)
+
+    # exercise 11
+    def determinant(self) -> K:
+        rows, cols = self.shape()
+        if rows != cols or rows == 0:
+            raise ValueError("Matrix must be non-empty and square")
+        if rows == 1:
+            return self.data[0][0]
+        if rows == 2:
+            return self.data[0][0] * self.data[1][1] - self.data[0][1] * self.data[1][0]
+        if rows == 3:
+            return (self.data[0][0] *(self.data[1][1] * self.data[2][2] - self.data[1][2] * self.data[2][1])
+            - self.data[0][1] * (self.data[1][0] * self.data[2][2] - self.data[1][2] * self.data[2][0])
+            + self.data[0][2] * (self.data[1][0] * self.data[2][1] - self.data[1][1] * self.data[2][0]))
+        if rows == 4:
+            def minor_of(col: int) -> "Matrix[K]":
+                return Matrix([
+                    [self.data[r][c] for c in range(4) if c != col]
+                    for r in range(1, 4)
+                ])
+
+            result = self.data[0][0] * minor_of(0).determinant()
+            sign = -1
+            for col in range(1, 4):
+                result += sign * (self.data[0][col] * minor_of(col).determinant())
+                sign = -sign
+            return result
+        raise NotImplementedError("Determinant not implemented for matrices larger than 4x4")
+
 
     def __str__(self) -> str:
         return "\n".join(
