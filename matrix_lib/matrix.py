@@ -159,6 +159,42 @@ class Matrix[K: Field]:
             return result
         raise NotImplementedError("Determinant not implemented for matrices larger than 4x4")
 
+    # exercise 12
+    def inverse(self) -> "Matrix[K]":
+        rows, cols = self.shape()
+        if rows != cols or rows == 0:
+            raise ValueError("Matrix must be non-empty and square")
+        
+        result = [row.copy() for row in self.data]
+        identity = []
+        for r in range(rows):
+            identity.append([0.] * cols)
+            identity[r][r] = 1
+
+        for col in range(cols):
+            if result[col][col] == 0:
+                for r in range(col + 1, rows):
+                    if result[r][col] != 0:
+                        result[col], result[r] = result[r], result[col]
+                        identity[col], identity[r] = identity[r], identity[col]
+                        break
+            if result[col][col] == 0:
+                raise ValueError("Matrix is singular and cannot be inverted")
+            
+            pivot_value = result[col][col]
+
+            for c in range(cols):
+                result[col][c] /= pivot_value
+                identity[col][c] /= pivot_value
+            
+            for r in range(rows):
+                if r == col:
+                    continue
+                factor = result[r][col]
+                for c in range(cols):
+                    result[r][c] -= factor * result[col][c]
+                    identity[r][c] -= factor * identity[col][c]
+        return Matrix(identity)
 
     def __str__(self) -> str:
         return "\n".join(
