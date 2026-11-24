@@ -196,6 +196,19 @@ class Matrix[K: Field]:
                     identity[r][c] -= factor * identity[col][c]
         return Matrix(identity)
 
+    # exercise 13
+    def rank(self) -> int:
+        result = self.row_echelon()
+        rank = 0
+        rows, cols = self.shape()
+
+        for r in range(rows):
+            for c in range(cols):
+                if result.data[r][c] != 0:
+                    rank += 1
+                    break
+        return rank
+
     def __str__(self) -> str:
         return "\n".join(
             f"[{', '.join(str(x) for x in row)}]" for row in self.data
