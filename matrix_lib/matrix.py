@@ -1,6 +1,6 @@
 from matrix_lib.field import Field
 from matrix_lib.vector import Vector
-
+from matrix_lib.complex import Complex
 
 class Matrix[K: Field]:
     def __init__(self, data: list[list[K]]) -> None:
@@ -106,13 +106,13 @@ class Matrix[K: Field]:
             if pivot_row >= rows:
                 break
 
-            if result[pivot_row][col] == 0:
+            if Complex.is_zero(result[pivot_row][col]):
                 for r in range(pivot_row + 1, rows):
-                    if result[r][col] != 0:
+                    if not Complex.is_zero(result[r][col]):
                         result[pivot_row], result[r] = result[r], result[pivot_row]
                         break
                 
-            if result[pivot_row][col] == 0:
+            if Complex.is_zero(result[pivot_row][col]):
                 continue
 
             pivot_value = result[pivot_row][col]
@@ -172,13 +172,13 @@ class Matrix[K: Field]:
             identity[r][r] = 1
 
         for col in range(cols):
-            if result[col][col] == 0:
+            if Complex.is_zero(result[col][col]):
                 for r in range(col + 1, rows):
-                    if result[r][col] != 0:
+                    if not Complex.is_zero(result[r][col]):
                         result[col], result[r] = result[r], result[col]
                         identity[col], identity[r] = identity[r], identity[col]
                         break
-            if result[col][col] == 0:
+            if Complex.is_zero(result[col][col]):
                 raise ValueError("Matrix is singular and cannot be inverted")
             
             pivot_value = result[col][col]
@@ -204,7 +204,7 @@ class Matrix[K: Field]:
 
         for r in range(rows):
             for c in range(cols):
-                if result.data[r][c] != 0:
+                if not Complex.is_zero(result.data[r][c]):
                     rank += 1
                     break
         return rank

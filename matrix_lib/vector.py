@@ -1,4 +1,5 @@
 from matrix_lib.field import Field
+from matrix_lib.complex import Complex
 
 class Vector[K: Field]:
     def __init__(self, data: list[K]) -> None:
@@ -26,39 +27,34 @@ class Vector[K: Field]:
             raise ValueError("Vectors must have the same size")
         if not self.data:
             raise ValueError("Vectors cannot be empty")
-        result = self.data[0] * v.data[0]
+        result = Complex.conjugate(self.data[0]) * v.data[0]
         for i in range(1, len(self.data)):
-            result = result + self.data[i] * v.data[i]
+            result = result + Complex.conjugate(self.data[i]) * v.data[i]
         return result
 
     # exercise 4
-    @staticmethod
-    def _abs(x: float) -> float:
-        return x if x >= 0 else -x
-
-
     def norm_1(self) -> float:
         if not self.data:
             raise ValueError("Vectors cannot be empty")
-        result = self._abs(self.data[0])
+        result = Complex.magnitude(self.data[0])
         for i in range(1, len(self.data)):
-            result = result + self._abs(self.data[i])
+            result = result + Complex.magnitude(self.data[i])
         return result
 
     def norm(self) -> float:
         if not self.data:
             raise ValueError("Vectors cannot be empty")
-        result = pow(self.data[0], 2)
+        result = pow(Complex.magnitude(self.data[0]), 2)
         for i in range(1, len(self.data)):
-            result = result + pow(self.data[i], 2)
+            result = result + pow(Complex.magnitude(self.data[i]), 2)
         return pow(result, 0.5)
 
     def norm_inf(self) -> float:
         if not self.data:
             raise ValueError("Vectors cannot be empty")
-        result = self._abs(self.data[0])
+        result = Complex.magnitude(self.data[0])
         for i in range(1, len(self.data)):
-            result = max(result, self._abs(self.data[i]))
+            result = max(result, Complex.magnitude(self.data[i]))
         return result 
 
 
