@@ -1,10 +1,9 @@
 from matrix_lib.projection import projection
-from math import pi
 from pathlib import Path
 
 
 def main():
-    p = projection(70 * pi / 180, 16 / 9, 0.1, 100.)
+    p = projection(70 * 3.141592653589793 / 180, 16 / 9, 0.1, 100.)
 
     project_root = Path(__file__).resolve().parent.parent
     # Both display programs read the same column-major matrix format.
