@@ -30,11 +30,12 @@ cd display_macos
 ./display
 ```
 
-On Linux:
+On Linux, use the centered launcher with GDB installed. It restores the
+initial camera direction after the window opens and mouse input begins.
 
 ```sh
 cd matrix_display
-./display
+./display-centered
 ```
 
 The supplied executables are for x86-64. The macOS executable may require

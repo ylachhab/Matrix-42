@@ -1,0 +1,19 @@
+#!/usr/bin/env -S gdb -nx -q -batch-silent -return-child-result -x
+# Run from matrix_display, where the viewer reads its proj and assets.
+file ./display
+set disable-randomization off
+break display::camera::Camera::get_view_matrix
+run
+
+# The bundled x86-64 viewer passes Camera in RSI. Its position is three
+# floats, followed by yaw and pitch. Save the angles at initialization.
+set $initial_yaw = *(float *)($rsi + 12)
+set $initial_pitch = *(float *)($rsi + 16)
+continue
+
+# The first update follows the queued startup mouse events. Restore only the
+# viewing direction, then allow all subsequent mouse and keyboard updates.
+set *(float *)($rsi + 12) = $initial_yaw
+set *(float *)($rsi + 16) = $initial_pitch
+delete breakpoints
+continue
