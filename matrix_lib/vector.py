@@ -1,5 +1,5 @@
-
 from matrix_lib.field import Field
+from matrix_lib.complex import magnitude
 
 
 class Vector[K: Field]:
@@ -47,7 +47,7 @@ class Vector[K: Field]:
         result = 0.0
 
         for value in self.data:
-            result += abs(value)
+            result += magnitude(value)
 
         return result
 
@@ -69,10 +69,10 @@ class Vector[K: Field]:
         if not self.data:
             raise ValueError("Vectors cannot be empty")
 
-        result = abs(self.data[0])
+        result = magnitude(self.data[0])
 
         for i in range(1, len(self.data)):
-            result = max(result, abs(self.data[i]))
+            result = max(result, magnitude(self.data[i]))
 
         return result
 

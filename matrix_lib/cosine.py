@@ -1,7 +1,7 @@
 # exercise 5
 from matrix_lib.field import Field
 from matrix_lib.vector import Vector
-from matrix_lib.complex import Complex
+from matrix_lib.complex import Complex, magnitude
 
 
 def angle_cos[K: Field](
@@ -12,17 +12,29 @@ def angle_cos[K: Field](
     if len(u.data) != len(v.data):
         raise ValueError("Vectors must have the same length")
 
-    unorm = u.norm()
-    vnorm = v.norm()
+    # ||u||^2 and ||v||^2 are the dot product of a vector with itself.
+    # Taking one square root of the product (instead of two separate
+    # square roots) keeps results like 1.0 exact.
+    uu = u.dot(u).real
+    vv = v.dot(v).real
 
-    if unorm == 0 or vnorm == 0:
+    if uu == 0 or vv == 0:
         raise ValueError(
             "Cannot calculate cosine with a zero vector"
         )
 
     dot = u.dot(v)
 
+    # For complex vectors <u|v> is complex: use its modulus so that the
+    # result stays a real number.
     if isinstance(dot, Complex):
-        dot = abs(dot)
+        dot = magnitude(dot)
 
-    return dot / (unorm * vnorm)
+    result = dot / ((uu * vv) ** 0.5)
+
+    # Guard against rounding pushing the result slightly outside [-1, 1].
+    if result > 1.0:
+        return 1.0
+    if result < -1.0:
+        return -1.0
+    return result

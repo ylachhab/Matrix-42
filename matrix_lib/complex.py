@@ -1,9 +1,5 @@
-
 from __future__ import annotations
 from types import NotImplementedType
-
-
-# EPSILON = 1e-10
 
 
 class Complex:
@@ -30,7 +26,8 @@ class Complex:
 
     def __str__(self) -> str:
         sign = "+" if self.imag >= 0 else "-"
-        return f"{self.real} {sign} {abs(self.imag)}i"
+        imag = self.imag if self.imag >= 0 else -self.imag
+        return f"{self.real} {sign} {imag}i"
 
     def __add__(self, other: object) -> Complex | NotImplementedType:
         other = self._to_complex(other)
@@ -138,6 +135,14 @@ class Complex:
 
 EPSILON = 1e-10
 
+
+def magnitude(value: int | float | Complex) -> float:
+    """|value| without calling abs(): sqrt for Complex, sign flip for reals."""
+    if isinstance(value, Complex):
+        return value.magnitude_squared() ** 0.5
+    return value if value >= 0 else -value
+
+
 def is_zero(
     value: int | float | Complex,
     scale: float = 1.0
@@ -145,9 +150,6 @@ def is_zero(
     tolerance = EPSILON * scale
 
     if isinstance(value, Complex):
-        return (
-            value.magnitude_squared()
-            <= tolerance * tolerance
-        )
+        return value.magnitude_squared() <= tolerance * tolerance
 
-    return abs(value) <= tolerance
+    return -tolerance <= value <= tolerance
